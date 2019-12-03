@@ -96,30 +96,20 @@ const fi = (function() {
       }
     },
 
-    // storing the results of your callback in one array
-    // actual array value in another array
-    // comparison vs. array return purposes
     uniq: function(array, isSorted, callback) {
       let newArray = collectionTest(array) 
-      let returnArray = [] 
-      let callbackArray = []
+      let returnSet = new Set()
+      let returnArray = []
 
       if(callback) {
-        newArray.map(x => { callbackArray.push(callback(x))})
-        
         for (var e of newArray) {
           const callbackVal = callback(e)
-          if (callbackVal === e){
+          if (!returnSet.has(callbackVal)) {
             returnArray.push(e)
+            returnSet.add(callbackVal)
           }
         }
-        
-
-        console.log(`callbackArray: ${callbackArray}`)
-        console.log(`newArray: ${newArray}`)
-        console.log(`returnArray: ${returnArray}`)
-        console.log(`sorted returnArray: ${[...new Set(returnArray)]}`)
-        
+        return returnArray        
       } else {
         return [...new Set(newArray)] 
       }
@@ -134,8 +124,13 @@ const fi = (function() {
     },
 
     functions: function(object) {
-      // let sorted = Object.keys(object).sort()
-      // return sorted
+      let result = []
+
+      for (const key in object) {
+        if (typeof object[key] === "function")
+        result.push(key)
+      }
+      return result.sort()
     },
 
   }
