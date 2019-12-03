@@ -82,19 +82,47 @@ const fi = (function() {
     },
 
     sortBy: function(array, callback) {
-
+      let newArray = collectionTest(array) 
+      return newArray.sort(function(a, b) { return callback(a) - callback(b) })
     },
 
     flatten: function(array, shallow) {
-      if(shallow === true) {
-        return array.reduce((acc, val) => acc.concat(val), [])
-      }else {
-        // return array.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatDeep(val, d - 1) : val), [])
+      if (shallow === true) {
+        let result = array.reduce((acc, val) => acc.concat(val), [])
+        return result
+      } else {
+        let result = array.reduce((acc, val) => acc.concat(Array.isArray(val) ? fi.flatten(val) : val), [])
+        return result
       }
     },
 
-    uniq: function(array, [isSorted], [callback]) {
+    // storing the results of your callback in one array
+    // actual array value in another array
+    // comparison vs. array return purposes
+    uniq: function(array, isSorted, callback) {
+      let newArray = collectionTest(array) 
+      let returnArray = [] 
+      let callbackArray = []
 
+      if(callback) {
+        newArray.map(x => { callbackArray.push(callback(x))})
+        
+        for (var e of newArray) {
+          const callbackVal = callback(e)
+          if (callbackVal === e){
+            returnArray.push(e)
+          }
+        }
+        
+
+        console.log(`callbackArray: ${callbackArray}`)
+        console.log(`newArray: ${newArray}`)
+        console.log(`returnArray: ${returnArray}`)
+        console.log(`sorted returnArray: ${[...new Set(returnArray)]}`)
+        
+      } else {
+        return [...new Set(newArray)] 
+      }
     },
 
     keys: function(object){
