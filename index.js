@@ -40,14 +40,75 @@ const fi = (function() {
       return newCollection.reduce( (a, c) => { return callback(a, c) }, accumulator)
     },
 
-    find: function() {
+    find: function(collection, predicate) {
+      let newCollection = collectionTest(collection) 
+
+      return newCollection.find(predicate)
+    },
+
+    filter: function(collection, predicate) {
+      let newCollection = collectionTest(collection) 
+
+      return newCollection.filter(predicate)
+    },
+
+    size: function(collection) {
+      let newCollection = collectionTest(collection) 
+
+      return newCollection.length
+    },
+
+    first: function(array, n) {
+      if(!n) {
+        return array[0]
+      } else {
+        return array.slice(0, n)
+      }
+    },
+
+    last: function(array, n) {
+      let last = array[array.length - 1]
+
+      if(!n) {
+        return last
+      } else {
+        return array.slice(last - n)
+      }
+    },
+
+    compact: function(array) {
+      let filtered = array.filter(Boolean)
+      return filtered
+    },
+
+    sortBy: function(array, callback) {
 
     },
 
-    functions: function() {
+    flatten: function(array, shallow) {
+      if(shallow === true) {
+        return array.reduce((acc, val) => acc.concat(val), [])
+      }else {
+        // return array.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatDeep(val, d - 1) : val), [])
+      }
+    },
+
+    uniq: function(array, [isSorted], [callback]) {
 
     },
 
+    keys: function(object){
+      return Object.keys(object)
+    },
+
+    values: function(object) {
+      return Object.values(object)
+    },
+
+    functions: function(object) {
+      // let sorted = Object.keys(object).sort()
+      // return sorted
+    },
 
   }
 })()
