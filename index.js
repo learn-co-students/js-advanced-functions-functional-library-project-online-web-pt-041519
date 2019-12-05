@@ -91,7 +91,10 @@ const fi = (function() {
     },
 
     sortBy: function(collection, callback) {
-      
+      const sorted = [...collection];
+      return sorted.sort(function(a, b) {
+        return callback(a) - callback(b)
+      })
     },
 
     flatten: function(collection, singleLevel) {
